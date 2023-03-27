@@ -1,0 +1,18 @@
+{
+  "name": "nodejs_project",
+  "version": "1.0.0",
+  "description": "clon_project",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "mustafa koc",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
