@@ -35,10 +35,13 @@ const loginUser = async (req, res) => {
         }
 
         if (same) {
-            res.status(200).json({
-                user,
-                token: createToken(user._id)
-            })
+
+            const token = createToken(user._id);
+            res.cookie("jsonwebtoken", token, {
+                httpOnly:true,
+                maxAge: 1000*60*60*24,
+            } )
+            res.redirect("/users/dashboard");
         } else {
             res.status(401).json({
                 succeded: false,
@@ -60,7 +63,12 @@ const createToken = (userId) => {
     })
 }
 
+const getDashboardPage = (req, res) => {
+    res.render("dashboard", {
+        link: "dashboard",
+        title: "Hakkımızda"
+    })
+}
 
 
-
-export { createUser, loginUser };
+export { createUser, loginUser, getDashboardPage };

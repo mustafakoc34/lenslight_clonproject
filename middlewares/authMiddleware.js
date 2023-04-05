@@ -4,21 +4,22 @@ import jwt from "jsonwebtoken";
 const authenticateToken = async (req, res, next) => {
 
     try {
-        const authHeader = req.headers["authorization"];
+        
 
-        const token = authHeader && authHeader.split(" ")[1];
+        const token = req.cookies.jsonwebtoken;
 
-        if (!token) {
-            return res.status(401).json({
-                succeeded: false,
-                error: "no token available",
-            });
+        if(token){
+            jwt.verify(token, process.env.JWT_SECRET, (err)=>{
+                if(err){
+                    console.log(err.message);
+                    res.redirect("/login")
+                }else{
+                    next()
+                }
+            })
+        } else{
+            res.redirect("/login")
         }
-
-        req.user = await User.findById(
-            jwt.verify(token, process.env.JWT_SECRET).userId
-        );
-        next();
     } catch (error) {
         res.status(401).json({
             succeeded: false,
